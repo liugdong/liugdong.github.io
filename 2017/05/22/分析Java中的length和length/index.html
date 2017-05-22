@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -57,15 +57,17 @@
 
 
 
-<meta name="description" content="so what,that is what I am">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Liugdong">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分析Java中的length和length()">
+<meta property="og:url" content="http://yoursite.com/2017/05/22/分析Java中的length和length/index.html">
 <meta property="og:site_name" content="Liugdong">
-<meta property="og:description" content="so what,that is what I am">
+<meta property="og:description" content="在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？">
+<meta property="og:updated_time" content="2017-05-22T04:55:20.931Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Liugdong">
-<meta name="twitter:description" content="so what,that is what I am">
+<meta name="twitter:title" content="分析Java中的length和length()">
+<meta name="twitter:description" content="在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？">
 
 
 
@@ -83,7 +85,7 @@
   };
 </script>
 
-  <title> Liugdong </title>
+  <title> 分析Java中的length和length() | Liugdong </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -104,9 +106,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -183,9 +183,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -205,10 +205,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/05/22/分析Java中的length和length/" itemprop="url">
-                  分析Java中的length和length()
-                </a>
+                分析Java中的length和length()
               
             
           </h1>
@@ -266,258 +263,67 @@
       
 
       
-        
-          <p>在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/05/22/分析Java中的length和length/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+        <p>在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？<br><a id="more"></a><br>这里我们先举用实例去分析一下：<br>int[]  arr=new int[3]；<br>System.out.println(arr.length)；//使用length获取数组的长度</p>
+<p>String srt=”abc”；<br>System.out.println(str.length):  //使用length()获取字符串的长度</p>
+<p>那么我们问题是，为什么数组有length属性，而字符串有length()方法？</p>
+<p>###为什么数组有length属性？<br>我们已经知道数组是一个容器，它包含的是同一类型的固定数量的值，一旦数组被创建，它的长度就是固定的了，数组的长度我们可以作为final来理解，因此长度可以作为一个数组属性。</p>
+<p>使用表达式创建数组方式如下，该方式指明了元素类型、数组的维度、以及至少一个维度的数组的长度。</p>
+<p>该声明方式是符合要求的，因为他指定了一个维度的长度（该数组的类型为int，维度为2，第一维度的长度为3）</p>
+<p>int[][] arr = new int[3][];</p>
+<p>使用数组初始化的方式创建数组时需要提供所有的初始值。形式是使用{和}将所有初始值括在一起并用,隔开。</p>
+<p>int[] arr = {1,2,3};</p>
+<p>注：<br>这里可能会有一个疑问，既然数组大小是初始化时就规定好的，那么int[][] arr = new int[3][];定义的数组并没有给出数组的第二维的大小，那么这个arr的长度到底是如何“规定好”的呢？</p>
+<p>其实，arr的长度就是3。其实Java中所有的数组，无论几维，其实都是一维数组。例如arr，分配了3个空间，每个空间存放一个一维数组的地址，这样就成了“二维”数组。但是对于arr来说，他的长度就是3。</p>
+<p>int[][] a=new int[3][];<br>System.out.println(a.length);//3<br>int[][] b=new int[3][5];<br>System.out.println(b.length);//3</p>
+<p>###为什么String有length()方法？<br>String背后的数据结构是一个char数组,所以没有必要来定义一个不必要的属性（因为该属性在char数值中已经提供了）。和C不同的是，Java中char的数组并不等于字符串，虽然String的内部机制是char数组实现的。（注：C语言中，并没有String类，定义字符串通常使用char string[6] = “hollis”;的形式）</p>
+<p>注：要想把char[]转成字符串有以下方式：</p>
+<p>char []s = {‘a’,’b’,’c’};<br>String string1 = s.toString();<br>String string2 = new String(s);<br>String string3 = String.valueOf(s);</p>
+
       
     </div>
 
     <div>
       
+        
+      
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/19/MainActivity-this和this分析/" itemprop="url">
-                  MainActivity.this和this分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-19T12:13:48+08:00" content="2017-04-19">
-              2017-04-19
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/Java/" rel="tag">#Java</a>
           
-
-          
-            
-          
-
-          
-
-          
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>相信很多同学在接触this时都有很多困惑，所以今天我们就仔细分析一下MainActivity.this 和 this 的区别<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/04/19/MainActivity-this和this分析/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/19/MainActivity-this和this分析/" rel="next" title="MainActivity.this和this分析">
+                <i class="fa fa-chevron-left"></i> MainActivity.this和this分析
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/19/我的定位/" itemprop="url">
-                  我的定位
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-19T12:13:48+08:00" content="2017-03-19">
-              2017-03-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>有时候我感觉我自己是一个极端的人，总想着：要么名满天下，要么死的其所。因此害怕唯唯诺诺，害怕止步不前….我也在寻找，我相信能在此生遇到最幸运的事：发现自己生来的使命，即便现在庸庸碌碌，即便在如此强大的社会潮流中，看不到自己的未来。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/03/19/我的定位/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -525,6 +331,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -544,8 +354,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -597,6 +416,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -681,6 +511,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
 
   
 
