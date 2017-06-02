@@ -64,7 +64,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/22/分析Java中的length和length/index.html">
 <meta property="og:site_name" content="Liugdong">
 <meta property="og:description" content="在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？">
-<meta property="og:updated_time" content="2017-05-22T04:55:20.931Z">
+<meta property="og:updated_time" content="2017-06-02T05:01:20.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分析Java中的length和length()">
 <meta name="twitter:description" content="在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？">
@@ -266,7 +266,7 @@
         <p>在不适用任何带有自动补全功能的IDE的情况下，我们怎么获取一个数组的长度？如何获取字符串的长度？<br><a id="more"></a><br>这里我们先举用实例去分析一下：<br>int[]  arr=new int[3]；<br>System.out.println(arr.length)；//使用length获取数组的长度</p>
 <p>String srt=”abc”；<br>System.out.println(str.length):  //使用length()获取字符串的长度</p>
 <p>那么我们问题是，为什么数组有length属性，而字符串有length()方法？</p>
-<p>###为什么数组有length属性？<br>我们已经知道数组是一个容器，它包含的是同一类型的固定数量的值，一旦数组被创建，它的长度就是固定的了，数组的长度我们可以作为final来理解，因此长度可以作为一个数组属性。</p>
+<p>为什么数组有length属性？<br>我们已经知道数组是一个容器，它包含的是同一类型的固定数量的值，一旦数组被创建，它的长度就是固定的了，数组的长度我们可以作为final来理解，因此长度可以作为一个数组属性。</p>
 <p>使用表达式创建数组方式如下，该方式指明了元素类型、数组的维度、以及至少一个维度的数组的长度。</p>
 <p>该声明方式是符合要求的，因为他指定了一个维度的长度（该数组的类型为int，维度为2，第一维度的长度为3）</p>
 <p>int[][] arr = new int[3][];</p>
@@ -275,7 +275,7 @@
 <p>注：<br>这里可能会有一个疑问，既然数组大小是初始化时就规定好的，那么int[][] arr = new int[3][];定义的数组并没有给出数组的第二维的大小，那么这个arr的长度到底是如何“规定好”的呢？</p>
 <p>其实，arr的长度就是3。其实Java中所有的数组，无论几维，其实都是一维数组。例如arr，分配了3个空间，每个空间存放一个一维数组的地址，这样就成了“二维”数组。但是对于arr来说，他的长度就是3。</p>
 <p>int[][] a=new int[3][];<br>System.out.println(a.length);//3<br>int[][] b=new int[3][5];<br>System.out.println(b.length);//3</p>
-<p>###为什么String有length()方法？<br>String背后的数据结构是一个char数组,所以没有必要来定义一个不必要的属性（因为该属性在char数值中已经提供了）。和C不同的是，Java中char的数组并不等于字符串，虽然String的内部机制是char数组实现的。（注：C语言中，并没有String类，定义字符串通常使用char string[6] = “hollis”;的形式）</p>
+<p>为什么String有length()方法？<br>String背后的数据结构是一个char数组,所以没有必要来定义一个不必要的属性（因为该属性在char数值中已经提供了）。和C不同的是，Java中char的数组并不等于字符串，虽然String的内部机制是char数组实现的。（注：C语言中，并没有String类，定义字符串通常使用char string[6] = “hollis”;的形式）</p>
 <p>注：要想把char[]转成字符串有以下方式：</p>
 <p>char []s = {‘a’,’b’,’c’};<br>String string1 = s.toString();<br>String string2 = new String(s);<br>String string3 = String.valueOf(s);</p>
 
